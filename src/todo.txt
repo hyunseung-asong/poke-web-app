@@ -1,0 +1,18 @@
+TODO: 
+
+pokedex:
+ - use react query?
+ - get api calls using axios and store it in a local db
+ - display the pokemon's data
+
+
+ - need 3 states, loading, success, error
+ - loading screen while api call for all pokemon information
+
+ - a list of pokemon
+ - a list of their types
+ - 
+
+
+
+using phaser.io for a game (tetris or other)
