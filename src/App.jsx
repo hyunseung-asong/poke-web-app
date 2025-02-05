@@ -1,7 +1,8 @@
 import * as React from "react"
 import PokemonCard from "./PokemonCard";
-import ButtonGroup from "./ButtonGroup";
+import ScrollButtons from "./ScrollButtons";
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import { Container, Row} from "react-bootstrap";
 
 const queryClient = new QueryClient();
 
@@ -14,14 +15,18 @@ function App() {
     });
 
     return (
-        <>
-            <PokemonCard
-                isLoading={isLoading}
-                data={pokemon}
-                error={error}
-            />
-            <ButtonGroup handleSetId={setId} />
-        </>
+        <Container fluid="sm">
+            <Row>
+                <PokemonCard
+                    isLoading={isLoading}
+                    data={pokemon}
+                    error={error}
+                />
+            </Row>
+            <Row>
+                <ScrollButtons handleSetId={setId} />
+            </Row>
+        </Container>
     );
 }
 
