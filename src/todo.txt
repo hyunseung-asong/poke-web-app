@@ -1,18 +1,22 @@
 TODO: 
 
 pokedex:
- - use react query?
- - get api calls using axios and store it in a local db
- - display the pokemon's data
+ DONE - use react query? 
+ DONE - get api calls reactquery and it auto caches
+ DONE - display the pokemon's data
+ DONE - need 3 states, loading, success, error
+ 
+ DONE install and use bootstrap to make css look good
+ - eventually convert bootstrap to tailwind css for more flexibility and larger scale development
 
-
- - need 3 states, loading, success, error
+ 
  - loading screen while api call for all pokemon information
 
- - a list of pokemon
- - a list of their types
- - 
+ - display the pokemon type with colored boxes
+ - use pokeapi.co/api/v2/type/1/  1 through 19 from normal to stellar(gen 9 scarlet violet)
 
+
+- select generation to display pokemon sprites and types
 
 
 using phaser.io for a game (tetris or other)
