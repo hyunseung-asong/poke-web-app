@@ -69,6 +69,17 @@ export default function PokemonCard({ data, isLoading, error }) {
         <Card className="text-center" >
             <Card.Img
                 variant="top"
+                src={data?.sprites?.other?.["official-artwork"]?.front_default}
+                alt={data?.name}
+                style={{
+                    width: "auto",
+                    height: "18rem",
+                    objectFit: "cover",
+                    margin: "auto",
+                }}
+            ></Card.Img>
+            {/* <Card.Img
+                variant="top"
                 src={data?.sprites?.front_default}
                 alt={data?.name}
                 style={{
@@ -78,12 +89,23 @@ export default function PokemonCard({ data, isLoading, error }) {
                     margin: "auto",
                 }}
             ></Card.Img>
+            <Card.Img
+                variant="top"
+                src={data?.sprites?.versions?.["generation-iii"]?.emerald?.front_default}
+                alt={data?.name}
+                style={{
+                    width: "auto",
+                    height: "18rem",
+                    objectFit: "cover",
+                    margin: "auto",
+                }}
+            ></Card.Img> */}
+            
             <Card.Body>
                 <Card.Title>{data.name.slice(0, 1).toUpperCase() + data.name.slice(1)}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">No.{data.id}</Card.Subtitle>
                 <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    {data.name} weighs {data.weight} kg
                 </Card.Text>
                 <Card.Link href="#">Card Link</Card.Link>
                 <Card.Link href="#">Another Link</Card.Link>

@@ -10,24 +10,24 @@ function App() {
     const [id, setId] = useState(1);
 
     // correct version
-    // const { data: pokemon, isLoading, error } = useQuery({
-    //     queryKey: ['pokemon', id],
-    //     queryFn: () => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    //         .then(res => res.json())
-    // });
-
-    // forced 1s loading time
     const { data: pokemon, isLoading, error } = useQuery({
         queryKey: ['pokemon', id],
-        queryFn: () =>
-            new Promise((resolve) => {
-                setTimeout(() => {
-                    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-                        .then(res => res.json())
-                        .then(resolve);
-                }, 200);
-            }),
+        queryFn: () => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            .then(res => res.json())
     });
+
+    // forced 1s loading time
+    // const { data: pokemon, isLoading, error } = useQuery({
+    //     queryKey: ['pokemon', id],
+    //     queryFn: () =>
+    //         new Promise((resolve) => {
+    //             setTimeout(() => {
+    //                 fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    //                     .then(res => res.json())
+    //                     .then(resolve);
+    //             }, 200);
+    //         }),
+    // });
 
 
     // return (

@@ -18,5 +18,8 @@ pokedex:
 
 - select generation to display pokemon sprites and types
 
+ - <b> Think about setting up PokeAPI database to call locally instead
+ - or use github.com/PokeAPI/sprites for images
+
 
 using phaser.io for a game (tetris or other)
