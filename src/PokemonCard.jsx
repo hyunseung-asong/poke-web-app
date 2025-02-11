@@ -1,10 +1,9 @@
 
 import {  Card,  Placeholder, Spinner } from "react-bootstrap";
 
-export default function PokemonCard({ data, isLoading, error }) {
-
-    if (isLoading) {
-        console.log("is loading");
+export default function PokemonCard({ data, pokemonIsLoading, error, generation }) {
+    if (pokemonIsLoading) {
+        console.log("laoding", data, pokemonIsLoading, error, generation);
         return (
             <Card className="text-center" >
                 <div
@@ -40,8 +39,9 @@ export default function PokemonCard({ data, isLoading, error }) {
         );
     }
 
-
-    if (error) {
+    console.log(generation);
+    console.log("data.sprites.versions[generation]=", data.sprites.versions[generation]);
+    if (error || data === null || generation === null || data.sprites.versions[generation] === undefined) {
         return (
             <Card className="text-center" >
                 <Card.Body>
@@ -64,10 +64,16 @@ export default function PokemonCard({ data, isLoading, error }) {
         );
     }
 
+    console.log("done loading", data, pokemonIsLoading, error, generation);
+
+    // console.log("hi" + data?.sprites?.versions?.[0]?.front_default)
+    console.log(Object.keys(data.sprites.versions[generation]));
+    const firstIndex = Object.keys(data.sprites.versions[generation])[0];
+    console.log(firstIndex);
 
     return (
         <Card className="text-center" >
-            <Card.Img
+            {/* <Card.Img
                 variant="top"
                 src={data?.sprites?.other?.["official-artwork"]?.front_default}
                 alt={data?.name}
@@ -77,7 +83,7 @@ export default function PokemonCard({ data, isLoading, error }) {
                     objectFit: "cover",
                     margin: "auto",
                 }}
-            ></Card.Img>
+            ></Card.Img> */}
             {/* <Card.Img
                 variant="top"
                 src={data?.sprites?.front_default}
@@ -89,9 +95,10 @@ export default function PokemonCard({ data, isLoading, error }) {
                     margin: "auto",
                 }}
             ></Card.Img>
+            */}
             <Card.Img
                 variant="top"
-                src={data?.sprites?.versions?.["generation-iii"]?.emerald?.front_default}
+                src={data?.sprites?.versions[generation][firstIndex].front_default}
                 alt={data?.name}
                 style={{
                     width: "auto",
@@ -99,13 +106,14 @@ export default function PokemonCard({ data, isLoading, error }) {
                     objectFit: "cover",
                     margin: "auto",
                 }}
-            ></Card.Img> */}
+            ></Card.Img>
             
             <Card.Body>
                 <Card.Title>{data.name.slice(0, 1).toUpperCase() + data.name.slice(1)}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">No.{data.id}</Card.Subtitle>
                 <Card.Text>
                     {data.name} weighs {data.weight} kg
+                    {/* {data.sprites.versions.genName.[0].} */}
                 </Card.Text>
                 <Card.Link href="#">Card Link</Card.Link>
                 <Card.Link href="#">Another Link</Card.Link>

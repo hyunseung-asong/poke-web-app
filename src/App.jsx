@@ -1,20 +1,31 @@
 import { useState } from "react";
 import PokemonCard from "./PokemonCard";
+import DropdownSelector from "./DropdownSelector";
 import ScrollButtons from "./ScrollButtons";
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import { Container, Row, Col } from "react-bootstrap";
+import GenerationSelect from "./GenerationSelect";
 
 const queryClient = new QueryClient();
 
 function App() {
-    const [id, setId] = useState(1);
+    const [generationName, setGenerationName] = useState("generation-i");
+    const [pokemonId, setPokemonId] = useState(1);
+    
+    // const { data: generation, isLoading: generationIsLoading, error: generationError } = useQuery({
+    //     queryKey: ['generation', generationName],
+    //     queryFn: () => fetch(`https://pokeapi.co/api/v2/generation/${generationName}`)
+    //         .then(res => res.json())
+    // });
+    
 
     // correct version
-    const { data: pokemon, isLoading, error } = useQuery({
-        queryKey: ['pokemon', id],
-        queryFn: () => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    const { data: pokemon, isLoading: pokemonIsLoading, error: pokemonError } = useQuery({
+        queryKey: ['pokemon', pokemonId],
+        queryFn: () => fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
             .then(res => res.json())
     });
+
 
     // forced 1s loading time
     // const { data: pokemon, isLoading, error } = useQuery({
@@ -30,38 +41,35 @@ function App() {
     // });
 
 
-    // return (
-    //     <Container className="p-4">
-    //         <Row>
-    //             <Col>1 of 3</Col>
-    //             <Col xs={6}>
-    //                 <PokemonCard
-    //                     isLoading={isLoading}
-    //                     data={pokemon}
-    //                     error={error}
-    //                 />
-    //             </Col>
-    //             <Col>3 of 3</Col>
-    //         </Row>
-    //         <Row>
-    //         </Row>
-    //     </Container>
-    // );
-
     return (
         <Container fluid style={{ hight: '100vh' }} className="justify-content-center align-items-center">
             <Row>
                 <Col xs={12}>
-                    <PokemonCard
-                        isLoading={isLoading}
-                        data={pokemon}
-                        error={error}
+                    <GenerationSelect
+                        generation={generationName}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col xs={12}>
-                    <ScrollButtons handleSetId={setId} />
+                    <DropdownSelector handleSetId={setGenerationName}/>
+                </Col>
+            </Row>
+            
+            <Row>
+                <Col xs={12}>
+                    <PokemonCard
+                        pokemonIsLoading={pokemonIsLoading}
+                        // generationIsLoading={generationIsLoading}
+                        data={pokemon}
+                        error={pokemonError}
+                        generation={generationName}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={12}>
+                    <ScrollButtons handleSetId={setPokemonId} />
                 </Col>
             </Row>
         </Container>
