@@ -9,7 +9,7 @@ import GenerationSelect from "./GenerationSelect";
 const queryClient = new QueryClient();
 
 function App() {
-    const [generationName, setGenerationName] = useState("generation-i");
+    const [generationName, setGenerationName] = useState("official-artwork");
     const [pokemonId, setPokemonId] = useState(1);
     
     // const { data: generation, isLoading: generationIsLoading, error: generationError } = useQuery({
@@ -46,13 +46,16 @@ function App() {
             <Row>
                 <Col xs={12}>
                     <GenerationSelect
-                        generation={generationName}
+                        generationName={generationName}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col xs={12}>
-                    <DropdownSelector handleSetId={setGenerationName}/>
+                    <DropdownSelector 
+                        generationName={generationName}
+                        setGenerationName={setGenerationName}  
+                    />
                 </Col>
             </Row>
             
@@ -60,7 +63,6 @@ function App() {
                 <Col xs={12}>
                     <PokemonCard
                         pokemonIsLoading={pokemonIsLoading}
-                        // generationIsLoading={generationIsLoading}
                         data={pokemon}
                         error={pokemonError}
                         generation={generationName}

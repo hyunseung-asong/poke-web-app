@@ -3,7 +3,6 @@ import {  Card,  Placeholder, Spinner } from "react-bootstrap";
 
 export default function PokemonCard({ data, pokemonIsLoading, error, generation }) {
     if (pokemonIsLoading) {
-        console.log("laoding", data, pokemonIsLoading, error, generation);
         return (
             <Card className="text-center" >
                 <div
@@ -39,9 +38,8 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
         );
     }
 
-    console.log(generation);
-    console.log("data.sprites.versions[generation]=", data.sprites.versions[generation]);
-    if (error || data === null || generation === null || data.sprites.versions[generation] === undefined) {
+    
+    if (error || data === null || generation === undefined) {
         return (
             <Card className="text-center" >
                 <Card.Body>
@@ -64,14 +62,18 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
         );
     }
 
-    console.log("done loading", data, pokemonIsLoading, error, generation);
-
-    // console.log("hi" + data?.sprites?.versions?.[0]?.front_default)
-    console.log(Object.keys(data.sprites.versions[generation]));
-    const firstIndex = Object.keys(data.sprites.versions[generation])[0];
-    console.log(firstIndex);
-
+    var generationInOthers = false;
+    var firstIndex = 0;
+    if (generation === "official-artwork" || generation === "dream_world" || generation === "home" || generation === "showdown"){
+        console.log("generation in others");
+        generationInOthers = true;
+    }else{
+        firstIndex = Object.keys(data.sprites.versions[generation])[0];
+    
+    }
+    
     return (
+        
         <Card className="text-center" >
             {/* <Card.Img
                 variant="top"
@@ -96,9 +98,10 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
                 }}
             ></Card.Img>
             */}
+            {console.log("log: ", generation, generationInOthers)}
             <Card.Img
                 variant="top"
-                src={data?.sprites?.versions[generation][firstIndex].front_default}
+                src={generationInOthers ? data?.sprites?.other[generation].front_default : data?.sprites?.versions[generation][firstIndex].front_default}
                 alt={data?.name}
                 style={{
                     width: "auto",
