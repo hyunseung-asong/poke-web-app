@@ -1,10 +1,9 @@
 import { useState } from "react";
 import PokemonCard from "./PokemonCard";
-import DropdownSelector from "./DropdownSelector";
+import GenerationSelector from "./GenerationSelector";
 import ScrollButtons from "./ScrollButtons";
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import { Container, Row, Col } from "react-bootstrap";
-import GenerationSelect from "./GenerationSelect";
 
 const queryClient = new QueryClient();
 
@@ -45,14 +44,7 @@ function App() {
         <Container fluid style={{ hight: '100vh' }} className="justify-content-center align-items-center">
             <Row>
                 <Col xs={12}>
-                    <GenerationSelect
-                        generationName={generationName}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={12}>
-                    <DropdownSelector 
+                    <GenerationSelector 
                         generationName={generationName}
                         setGenerationName={setGenerationName}  
                     />
