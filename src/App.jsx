@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import PokemonCard from "./PokemonCard";
 import GenerationSelector from "./GenerationSelector";

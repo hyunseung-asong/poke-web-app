@@ -12,11 +12,13 @@ pokedex:
  
  HAVE TO UPDATE WITH MORE INFO ON PAGE loading screen while api call for all pokemon information
 
+
+ - select generation to display pokemon sprites and types
+
  - display the pokemon type with colored boxes
  - use pokeapi.co/api/v2/type/1/  1 through 19 from normal to stellar(gen 9 scarlet violet)
 
 
-- select generation to display pokemon sprites and types
 
  - <b> Think about setting up PokeAPI database to call locally instead
  - or use github.com/PokeAPI/sprites for images
