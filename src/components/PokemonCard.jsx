@@ -45,7 +45,7 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
                 <Card.Body>
                     <Card.Img
                         variant="top"
-                        src="./images/pokemon-unknown.png"
+                        src="./assets/pokemon-unknown.png"
                         alt="Unknown Pokemon"
                         style={{ width: "20rem", height: "auto", objectFit: "cover", margin: "auto" }}
                     ></Card.Img>

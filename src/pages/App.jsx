@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from "react";
-import PokemonCard from "./PokemonCard";
-import GenerationSelector from "./GenerationSelector";
-import ScrollButtons from "./ScrollButtons";
+import PokemonCard from "../components/PokemonCard";
+import GenerationSelector from "../components/GenerationSelector";
+import ScrollButtons from "../components/ScrollButtons";
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import { Container, Row, Col } from "react-bootstrap";
 

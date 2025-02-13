@@ -24,4 +24,5 @@ pokedex:
  - or use github.com/PokeAPI/sprites for images
 
 
+ - setup unit tests?
 using phaser.io for a game (tetris or other)
