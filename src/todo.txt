@@ -26,3 +26,38 @@ pokedex:
 
  - setup unit tests?
 using phaser.io for a game (tetris or other)
+
+
+
+React Pages and Components Structure
+
+(currently)
+App page
+ - GenerationSelector component
+ - PokemonCard component
+ - ScrollButtons component
+
+
+(in the future)
+QuickView Pokedex   // poke-web-app/
+                    // lists all the pokemon sorted by number and split by generation (name, official-artwork, type, pokemon number) dynamically in a long page with lookup by name, number, type, generation
+                    // click on any pokemon or type to go to respective pokemon or type page
+ 
+Pokemon Page        // poke-web-app/pokemon?query=1 or something like that
+ - GenerationSelector component
+    - Text              // "Select a generation and game version"
+    - Dropdown          // select from available generations of the pokemon
+    - Dropdown          // select from available game version of the pokemon
+ - PokemonCard component
+    - Pokemon Image     // show pokemon sprite based on game version
+    - Type Image        // show type sprite based on game version
+    - Text (for now)    // show additional information such as flavortext, stats, etc.
+
+Type page           // poke-web-app/type?query="normal" or something like that
+ - GenerationSelector component
+    - Text              // "Select a generation and game version"
+    - Dropdown          // select from available generations of the type
+    - Dropdown          // select from available game version of the type
+ - TypeCard component
+    - Image             // show type sprite based on game version
+    - Text (for now)    // show offensive/defensive listings

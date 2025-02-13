@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 function App() {
     const [generationName, setGenerationName] = useState("official-artwork");
-    const [pokemonId, setPokemonId] = useState(1);
+    const [pokemonId, setPokemonId] = useState(909);
     
     // const { data: generation, isLoading: generationIsLoading, error: generationError } = useQuery({
     //     queryKey: ['generation', generationName],
@@ -28,12 +28,12 @@ function App() {
 
 
     // forced 1s loading time
-    // const { data: pokemon, isLoading, error } = useQuery({
-    //     queryKey: ['pokemon', id],
+    // const { data: pokemon, isLoading: pokemonIsLoading, error: pokemonError } = useQuery({
+    //     queryKey: ['pokemon', pokemonId],
     //     queryFn: () =>
     //         new Promise((resolve) => {
     //             setTimeout(() => {
-    //                 fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    //                 fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
     //                     .then(res => res.json())
     //                     .then(resolve);
     //             }, 200);
