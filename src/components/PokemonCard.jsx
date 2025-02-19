@@ -1,7 +1,8 @@
 
-import {  Card,  Placeholder, Spinner } from "react-bootstrap";
+import { Card, Placeholder, Spinner } from "react-bootstrap";
+import unknownPokemon from "../assets/pokemon-unknown.png";
 
-export default function PokemonCard({ data, pokemonIsLoading, error, generation }) {
+export default function PokemonCard({ data, pokemonIsLoading, error, generationName, gameVersionName }) {
     if (pokemonIsLoading) {
         return (
             <Card className="text-center" >
@@ -38,14 +39,14 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
         );
     }
 
-    
-    if (error || data === null || generation === undefined) {
+
+    if (error || data === null) {
         return (
             <Card className="text-center" >
                 <Card.Body>
                     <Card.Img
                         variant="top"
-                        src="./assets/pokemon-unknown.png"
+                        src={unknownPokemon}
                         alt="Unknown Pokemon"
                         style={{ width: "20rem", height: "auto", objectFit: "cover", margin: "auto" }}
                     ></Card.Img>
@@ -62,46 +63,23 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
         );
     }
 
-    var generationInOthers = false;
-    var firstIndex = 0;
-    if (generation === "official-artwork" || generation === "dream_world" || generation === "home" || generation === "showdown"){
-        console.log("generation in others");
-        generationInOthers = true;
-    }else{
-        firstIndex = Object.keys(data.sprites.versions[generation])[0];
-    
+    var sprite = "";
+    if (generationName === "official-artwork" || generationName === "dream_world" || generationName === "home" || generationName === "showdown") {
+        sprite = data?.sprites?.other[generationName].front_default;
+    } else {
+        sprite = data?.sprites?.versions[generationName][gameVersionName]?.front_default;
+        if (sprite === undefined) {
+            sprite = unknownPokemon;
+        }
     }
-    
+
     return (
-        
+
         <Card className="text-center" >
-            {/* <Card.Img
-                variant="top"
-                src={data?.sprites?.other?.["official-artwork"]?.front_default}
-                alt={data?.name}
-                style={{
-                    width: "auto",
-                    height: "18rem",
-                    objectFit: "cover",
-                    margin: "auto",
-                }}
-            ></Card.Img> */}
-            {/* <Card.Img
-                variant="top"
-                src={data?.sprites?.front_default}
-                alt={data?.name}
-                style={{
-                    width: "auto",
-                    height: "18rem",
-                    objectFit: "cover",
-                    margin: "auto",
-                }}
-            ></Card.Img>
-            */}
-            {console.log("log: ", generation, generationInOthers)}
             <Card.Img
                 variant="top"
-                src={generationInOthers ? data?.sprites?.other[generation].front_default : data?.sprites?.versions[generation][firstIndex].front_default}
+
+                src={sprite}
                 alt={data?.name}
                 style={{
                     width: "auto",
@@ -110,13 +88,12 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generation 
                     margin: "auto",
                 }}
             ></Card.Img>
-            
+
             <Card.Body>
                 <Card.Title>{data.name.slice(0, 1).toUpperCase() + data.name.slice(1)}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">No.{data.id}</Card.Subtitle>
                 <Card.Text>
                     {data.name} weighs {data.weight} kg
-                    {/* {data.sprites.versions.genName.[0].} */}
                 </Card.Text>
                 <Card.Link href="#">Card Link</Card.Link>
                 <Card.Link href="#">Another Link</Card.Link>

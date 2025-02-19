@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 function App() {
     const [generationName, setGenerationName] = useState("official-artwork");
     const [gameVersionName, setGameVersionName] = useState("");
-    const [pokemonId, setPokemonId] = useState(909);
+    const [pokemonId, setPokemonId] = useState(1);
 
     
 
@@ -56,7 +56,8 @@ function App() {
                         pokemonIsLoading={pokemonIsLoading}
                         data={pokemon}
                         error={pokemonError}
-                        generation={generationName}
+                        generationName={generationName}
+                        gameVersionName={gameVersionName}
                     />
                 </Col>
             </Row>
