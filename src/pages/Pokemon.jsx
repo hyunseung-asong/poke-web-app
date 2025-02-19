@@ -42,6 +42,9 @@ function App() {
             <Row>
                 <Col xs={12}>
                     <GenerationSelector 
+                        pokemonIsLoading={pokemonIsLoading}
+                        data={pokemon}
+                        error={pokemonError}
                         generationName={generationName}
                         setGenerationName={setGenerationName}  
                         gameVersionName={gameVersionName}

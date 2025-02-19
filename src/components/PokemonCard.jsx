@@ -63,7 +63,7 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generationN
         );
     }
 
-    var sprite = "";
+    let sprite = "";
     if (generationName === "official-artwork" || generationName === "dream_world" || generationName === "home" || generationName === "showdown") {
         sprite = data?.sprites?.other[generationName].front_default;
     } else {

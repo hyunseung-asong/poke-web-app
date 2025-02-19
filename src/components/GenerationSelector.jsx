@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { Card, Dropdown, DropdownButton, DropdownDivider } from "react-bootstrap";
 
-export default function GenerationSelector({ generationName, setGenerationName, gameVersionName, setGameVersionName }) {
+export default function GenerationSelector({ pokemonIsLoading, data, error, generationName, setGenerationName, gameVersionName, setGameVersionName }) {
     const gameVersionOptions = useMemo(() => ({
         "official-artwork": [],
         "dream_world": [],
@@ -23,17 +23,53 @@ export default function GenerationSelector({ generationName, setGenerationName, 
         }
     }, [generationName, gameVersionOptions, setGameVersionName]);
 
-    if (generationName === null || gameVersionName === null) {
-        console.log("generation is null");
+
+    if (pokemonIsLoading) {
         return;
     }
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    let pokemonDataMap = new Map(Object.entries(data));
+    let pokemonSpritesMap = new Map(Object.entries(pokemonDataMap.get("sprites")));
+    let pokemonVersionsMap = new Map(Object.entries(pokemonSpritesMap.get("versions")));
+    // for (const [key, value] of pokemonVersionsMap) {
+    //     console.log(key, value);
+    // }
+
+    let availableGenerations = [];
+    let availableGames = [];
+    let availableSprites = [];
+    console.log("-----------------");
+    for (let gen of pokemonVersionsMap.keys()) {
+        let gameMap = new Map(Object.entries(pokemonVersionsMap.get(gen)));
+        for (let game of gameMap.keys()) {
+            let spriteMap = new Map(Object.entries(gameMap.get(game)));
+            for (let [key, value] of spriteMap) {
+                if(value !== null){
+                    availableGenerations.push(gen);
+                    availableGames.push(game);
+                    availableSprites.push(key);
+                }
+            }
+        }
+    }
+    console.log([...new Set(availableGenerations)]);
+    console.log([...new Set(availableGames)]);
+    console.log(availableSprites);
+    // while(pokemonVersionsMap)
+    // let availableGenerations = [];
+
 
     return (
         <Card className="p-3">
             <Card.Body className="d-flex flex-column justify-content-center align-items-center">
                 <Card.Title>Select a generation and game version:</Card.Title>
                 <div className="d-flex gap-2">
-                    <DropdownButton id="dropdown-basic-button" title={cleanGenerationName(generationName)}>
+                    <DropdownButton id="dropdown-basic-button" title={cleanName(generationName)}>
                         <Dropdown.Item onClick={() => { setGenerationName("official-artwork") }}>Official Artwork</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("dream_world") }}>Dream World</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("home") }}>Home</Dropdown.Item>
@@ -48,9 +84,9 @@ export default function GenerationSelector({ generationName, setGenerationName, 
                         <Dropdown.Item onClick={() => { setGenerationName("generation-vii") }}>Generation 7</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("generation-viii") }}>Generation 8</Dropdown.Item>
                     </DropdownButton>
-                    <DropdownButton id="dropdown-basic-button" title={cleanGameVersionName(gameVersionName)}>
+                    <DropdownButton id="dropdown-basic-button" title={cleanName(gameVersionName)}>
                         {gameVersionOptions[generationName].map((item, index) => (
-                            <Dropdown.Item key={index} onClick={() => setGameVersionName(item)}>{cleanGameVersionName(item)}</Dropdown.Item>
+                            <Dropdown.Item key={index} onClick={() => setGameVersionName(item)}>{cleanName(item)}</Dropdown.Item>
                         ))}
 
                     </DropdownButton>
@@ -60,78 +96,22 @@ export default function GenerationSelector({ generationName, setGenerationName, 
     );
 }
 
-function cleanGenerationName(generationName) {
-    switch (generationName) {
-        case "generation-i":
-            return "Generation 1";
-        case "generation-ii":
-            return "Generation 2";
-        case "generation-iii":
-            return "Generation 3";
-        case "generation-iv":
-            return "Generation 4";
-        case "generation-v":
-            return "Generation 5";
-        case "generation-vi":
-            return "Generation 6";
-        case "generation-vii":
-            return "Generation 7";
-        case "generation-viii":
-            return "Generation 8";
-        case "generation-ix":
-            return "Generation 9";
-        case "official-artwork":
-            return "Official Artwork";
-        case "dream_world":
-            return "Dream World";
-        case "home":
-            return "Home";
-        case "showdown":
-            return "Showdown";
-        default:
-            return "Unknown Generation"
+function cleanName(name) {
+    let generation = name.substring(0, 10) === "generation";
+    let hadSpace = false;
+    for (let i = 0; i < name.length; i++) {
+        if (name.charAt(i) === '-' || name.charAt(i) === '_' || name.charAt(i) === ' ') {
+            name = name.substring(0, i) + " " + name.substring(i + 1);
+            hadSpace = true;
+        }
+        else {
+            if (hadSpace || i === 0) {
+                name = name.substring(0, i) + name.charAt(i).toUpperCase() + name.substring(i + 1);
+                if (!generation) {
+                    hadSpace = false;
+                }
+            }
+        }
     }
-}
-
-
-function cleanGameVersionName(gameVersionName) {
-    switch (gameVersionName) {
-        case "red-blue":
-            return "Red / Blue";
-        case "yellow":
-            return "Yellow";
-        case "crystal":
-            return "Crystal";
-        case "gold":
-            return "Gold";
-        case "silver":
-            return "Silver";
-        case "ruby-sapphire":
-            return "Ruby / Sapphire";
-        case "emerald":
-            return "Emerald";
-        case "firered-leafgreen":
-            return "FireRed / LeafGreen";
-        case "colosseum":
-            return "Colosseum";
-        case "xd":
-            return "XD";
-        case "diamond-pearl":
-            return "Diamond / Pearl";
-        case "heartgold-soulsilver":
-            return "HeartGold / SoulSilver";
-        case "platinum":
-            return "Platinum";
-        case "black-white":
-            return "Black / White";
-        case "omegaruby-alphasapphire":
-            return "OmegaRuby / AlphaSapphire";
-        case "x-y":
-            return "X / Y";
-        case "ultra-sun-ultra-moon":
-            return "UltraSun / UltraMoon";
-        default:
-            return "";
-
-    }
+    return name;
 }
