@@ -39,7 +39,7 @@ export default function GenerationSelector({ generationName, setGenerationName }
                         <Dropdown.Item onClick={() => { setGenerationName("generation-v") }}>Generation 5</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("generation-vi") }}>Generation 6</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("generation-vii") }}>Generation 7</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-ix") }}>Generation 9</Dropdown.Item>
+                        <Dropdown.Item onClick={() => { setGenerationName("generation-viii") }}>Generation 8</Dropdown.Item>
                     </DropdownButton>
                     <DropdownButton id="dropdown-basic-button" title={cleanGenerationName(generationName)}>
                         <Dropdown.Item onClick={() => { setGenerationName("official-artwork") }}>Official Artwork</Dropdown.Item>
@@ -55,7 +55,6 @@ export default function GenerationSelector({ generationName, setGenerationName }
                         <Dropdown.Item onClick={() => { setGenerationName("generation-vi") }}>Generation 6</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("generation-vii") }}>Generation 7</Dropdown.Item>
                         <Dropdown.Item onClick={() => { setGenerationName("generation-viii") }}>Generation 8</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-ix") }}>Generation 9</Dropdown.Item>
                     </DropdownButton>
                 </div>
             </Card.Body>
