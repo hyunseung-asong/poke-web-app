@@ -10,13 +10,9 @@ const queryClient = new QueryClient();
 
 function App() {
     const [generationName, setGenerationName] = useState("official-artwork");
+    const [gameVersionName, setGameVersionName] = useState("");
     const [pokemonId, setPokemonId] = useState(909);
-    
-    // const { data: generation, isLoading: generationIsLoading, error: generationError } = useQuery({
-    //     queryKey: ['generation', generationName],
-    //     queryFn: () => fetch(`https://pokeapi.co/api/v2/generation/${generationName}`)
-    //         .then(res => res.json())
-    // });
+
     
 
     // correct version
@@ -48,6 +44,8 @@ function App() {
                     <GenerationSelector 
                         generationName={generationName}
                         setGenerationName={setGenerationName}  
+                        gameVersionName={gameVersionName}
+                        setGameVersionName={setGameVersionName}
                     />
                 </Col>
             </Row>
