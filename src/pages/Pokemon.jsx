@@ -9,11 +9,8 @@ import { Container, Row, Col } from "react-bootstrap";
 const queryClient = new QueryClient();
 
 function App() {
-    const [generationName, setGenerationName] = useState("official-artwork");
-    const [gameVersionName, setGameVersionName] = useState("");
-    const [pokemonId, setPokemonId] = useState(1);
-
-    
+    const [pokemonId, setPokemonId] = useState(2);
+    const [spritePath, setSpritePath] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + pokemonId + ".png");
 
     // correct version
     const { data: pokemon, isLoading: pokemonIsLoading, error: pokemonError } = useQuery({
@@ -45,10 +42,7 @@ function App() {
                         pokemonIsLoading={pokemonIsLoading}
                         data={pokemon}
                         error={pokemonError}
-                        generationName={generationName}
-                        setGenerationName={setGenerationName}  
-                        gameVersionName={gameVersionName}
-                        setGameVersionName={setGameVersionName}
+                        setSpritePath={setSpritePath}
                     />
                 </Col>
             </Row>
@@ -59,8 +53,7 @@ function App() {
                         pokemonIsLoading={pokemonIsLoading}
                         data={pokemon}
                         error={pokemonError}
-                        generationName={generationName}
-                        gameVersionName={gameVersionName}
+                        spritePath={spritePath}
                     />
                 </Col>
             </Row>

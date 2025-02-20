@@ -61,3 +61,37 @@ Type page           // poke-web-app/type?query="normal" or something like that
  - TypeCard component
     - Image             // show type sprite based on game version
     - Text (for now)    // show offensive/defensive listings
+
+
+
+
+sprite show options
+
+Dropdown1   
+   Official artwork
+   Showdown
+   ...
+   Gen1
+   Gen2
+   ...
+   Gen8
+
+Dropdown2 // skipped if official artwork or doesnt have game version
+   Red Blue
+   ...
+   Black White
+   ...
+   Default
+Dropdown3
+   Front Default
+   Back Default
+   Front Shiny
+   ...
+   Animated
+
+Dropdown4 (for animated only)
+   Front Default
+   Back Default
+   ...
+
+

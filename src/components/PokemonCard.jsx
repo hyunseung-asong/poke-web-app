@@ -2,7 +2,7 @@
 import { Card, Placeholder, Spinner } from "react-bootstrap";
 import unknownPokemon from "../assets/pokemon-unknown.png";
 
-export default function PokemonCard({ data, pokemonIsLoading, error, generationName, gameVersionName }) {
+export default function PokemonCard({ data, pokemonIsLoading, error, spritePath }) {
     if (pokemonIsLoading) {
         return (
             <Card className="text-center" >
@@ -63,23 +63,13 @@ export default function PokemonCard({ data, pokemonIsLoading, error, generationN
         );
     }
 
-    let sprite = "";
-    if (generationName === "official-artwork" || generationName === "dream_world" || generationName === "home" || generationName === "showdown") {
-        sprite = data?.sprites?.other[generationName].front_default;
-    } else {
-        sprite = data?.sprites?.versions[generationName][gameVersionName]?.front_default;
-        if (sprite === undefined) {
-            sprite = unknownPokemon;
-        }
-    }
-
     return (
 
         <Card className="text-center" >
             <Card.Img
                 variant="top"
 
-                src={sprite}
+                src={spritePath}
                 alt={data?.name}
                 style={{
                     width: "auto",

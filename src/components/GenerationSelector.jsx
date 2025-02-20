@@ -1,28 +1,7 @@
-import React, { useEffect, useMemo } from "react";
-import { Card, Dropdown, DropdownButton, DropdownDivider } from "react-bootstrap";
 
-export default function GenerationSelector({ pokemonIsLoading, data, error, generationName, setGenerationName, gameVersionName, setGameVersionName }) {
-    const gameVersionOptions = useMemo(() => ({
-        "official-artwork": [],
-        "dream_world": [],
-        "home": [],
-        "showdown": [],
-        "generation-i": ["red-blue", "yellow"],
-        "generation-ii": ["crystal", "gold", "silver"],
-        "generation-iii": ["ruby-sapphire", "emerald", "firered-leafgreen", "colosseum", "xd"],
-        "generation-iv": ["diamond-pearl", "heartgold-soulsilver", "platinum"],
-        "generation-v": ["black-white"],
-        "generation-vi": ["omegaruby-alphasapphire", "x-y"],
-        "generation-vii": ["ultra-sun-ultra-moon"],
-        "generation-viii": [],
-    }), []);
+import { Card, Dropdown, DropdownButton } from "react-bootstrap";
 
-    useEffect(() => {
-        if (gameVersionOptions[generationName]) {
-            setGameVersionName(gameVersionOptions[generationName]?.[0] || "");
-        }
-    }, [generationName, gameVersionOptions, setGameVersionName]);
-
+export default function GenerationSelector({ pokemonIsLoading, data, error, setSpritePath }) {
 
     if (pokemonIsLoading) {
         return;
@@ -33,35 +12,22 @@ export default function GenerationSelector({ pokemonIsLoading, data, error, gene
         return;
     }
 
-    let pokemonDataMap = new Map(Object.entries(data));
-    let pokemonSpritesMap = new Map(Object.entries(pokemonDataMap.get("sprites")));
-    let pokemonVersionsMap = new Map(Object.entries(pokemonSpritesMap.get("versions")));
-    // for (const [key, value] of pokemonVersionsMap) {
-    //     console.log(key, value);
-    // }
+    let cleanedData = cleanNullValues(data["sprites"]);
+    const modifiedData = removeFirstNKeys(cleanedData, 4);
+    let path = "";
 
-    let availableGenerations = [];
-    let availableGames = [];
-    let availableSprites = [];
-    console.log("-----------------");
-    for (let gen of pokemonVersionsMap.keys()) {
-        let gameMap = new Map(Object.entries(pokemonVersionsMap.get(gen)));
-        for (let game of gameMap.keys()) {
-            let spriteMap = new Map(Object.entries(gameMap.get(game)));
-            for (let [key, value] of spriteMap) {
-                if(value !== null){
-                    availableGenerations.push(gen);
-                    availableGames.push(game);
-                    availableSprites.push(key);
-                }
-            }
+    const RecursiveDropdown = ({ data, title = "Root", path }) => {
+        if (title.substring(0, 5) === "front" || title.substring(0, 4) === "back") {
+            return <Dropdown.Item as="button" onClick={() => setSpritePath(data)}>{cleanName(title)}</Dropdown.Item>;
         }
-    }
-    console.log([...new Set(availableGenerations)]);
-    console.log([...new Set(availableGames)]);
-    console.log(availableSprites);
-    // while(pokemonVersionsMap)
-    // let availableGenerations = [];
+        return (
+            <DropdownButton title={cleanName(title)} variant="primary" className="m-2">
+                {Object.entries(data).map(([key, value]) => (
+                    <RecursiveDropdown key={key} data={value} title={key} path={path.length > 0 ? path + "," + key : key}/>
+                ))}
+            </DropdownButton>
+        );
+    };
 
 
     return (
@@ -69,27 +35,7 @@ export default function GenerationSelector({ pokemonIsLoading, data, error, gene
             <Card.Body className="d-flex flex-column justify-content-center align-items-center">
                 <Card.Title>Select a generation and game version:</Card.Title>
                 <div className="d-flex gap-2">
-                    <DropdownButton id="dropdown-basic-button" title={cleanName(generationName)}>
-                        <Dropdown.Item onClick={() => { setGenerationName("official-artwork") }}>Official Artwork</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("dream_world") }}>Dream World</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("home") }}>Home</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("showdown") }}>Showdown</Dropdown.Item>
-                        <DropdownDivider />
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-i") }}>Generation 1</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-ii") }}>Generation 2</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-iii") }}>Generation 3</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-iv") }}>Generation 4</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-v") }}>Generation 5</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-vi") }}>Generation 6</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-vii") }}>Generation 7</Dropdown.Item>
-                        <Dropdown.Item onClick={() => { setGenerationName("generation-viii") }}>Generation 8</Dropdown.Item>
-                    </DropdownButton>
-                    <DropdownButton id="dropdown-basic-button" title={cleanName(gameVersionName)}>
-                        {gameVersionOptions[generationName].map((item, index) => (
-                            <Dropdown.Item key={index} onClick={() => setGameVersionName(item)}>{cleanName(item)}</Dropdown.Item>
-                        ))}
-
-                    </DropdownButton>
+                    <RecursiveDropdown data={modifiedData} title="Select Sprite" path={path}/>
                 </div>
             </Card.Body>
         </Card>
@@ -114,4 +60,30 @@ function cleanName(name) {
         }
     }
     return name;
+}
+
+function cleanNullValues(obj) {
+    if (typeof obj === 'object' && obj !== null) {
+        let cleanedObj = {};
+        for (let key in obj) {
+            let cleanedValue = cleanNullValues(obj[key]);
+            if (cleanedValue !== null) {
+                cleanedObj[key] = cleanedValue;
+            }
+        }
+        return Object.keys(cleanedObj).length > 0 ? cleanedObj : null;
+    }
+
+    return obj;
+}
+
+function removeFirstNKeys(obj, n = 0) {
+    const keys = Object.keys(obj);
+    const newObj = {};
+
+    for (let i = n; i < keys.length; i++) {
+        newObj[keys[i]] = obj[keys[i]];
+    }
+
+    return newObj;
 }
