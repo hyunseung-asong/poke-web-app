@@ -95,3 +95,5 @@ Dropdown4 (for animated only)
    ...
 
 
+
+SPRITE SELECTOR WORKING, but doesnt update when pokemon is changed.
